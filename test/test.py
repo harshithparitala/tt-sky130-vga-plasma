@@ -29,17 +29,15 @@ async def test_project(dut):
     dut._log.info("Testing VGA synchronization behavior...")
 
     # Let's run the simulation for 200 clock cycles to watch the initial pixels sweep
-    # We will verify that HSYNC and VSYNC start in their correct default active-high states (since sync is active-low)
     for i in range(200):
         await RisingEdge(dut.clk)
         
-        # uo_out pinouts from info.yaml: 
-        # [7]=hsync, [3]=vsync
+        # uo_out pinouts from info.yaml: [7]=hsync, [3]=vsync
         current_out = dut.uo_out.value.integer
         hsync_bit = (current_out >> 7) & 1
         vsync_bit = (current_out >> 3) & 1
         
-        # Periodically log the outputs to clear the verification pipeline step
+        # Periodically log the outputs
         if i % 40 == 0:
             dut._log.info(f"Pixel Clock {i:03d} -> HSYNC: {hsync_bit}, VSYNC: {vsync_bit}, Raw Out (Bin): {bin(current_out)}")
 
