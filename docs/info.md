@@ -1,20 +1,16 @@
-<!---
-
-This file is used to generate your project datasheet. Please fill in the information below and delete any unused
-sections.
-
-You can also include images in this folder and reference them in the markdown. Each image must be less than
-512 kb in size, and the combined size of all images must be less than 1 MB.
--->
-
 ## How it works
 
-Explain how your project works
+The design implements a hardware-driven real-time VGA plasma pattern generator by racing the beam, eliminating the need for an external frame buffer or memory storage. 
+
+An internal synchronous counter framework tracks the horizontal and vertical pixel coordinates ($X$ and $Y$) to match standard VESA 640x480 @ 60Hz video timing specifications. During the active visible display region, the pixel coordinates are combined using bit-shifts, additions, and bitwise XOR operations alongside a dynamic frame counter. This mathematical interference pattern creates a moving, organic plasma fractal effect directly on the display.
 
 ## How to test
 
-Explain how to use your project
+1. Connect the output pins of the chip to a standard TinyVGA Pmod module.
+2. Apply a standard 25.175 MHz pixel clock to the `clk` input pin.
+3. Pull the active-low reset pin `rst_n` high to release the hardware logic from reset.
+4. The display will instantly start rendering the real-time dynamic plasma pattern grid.
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+* TinyVGA Pmod (or equivalent resistor-ladder DAC VGA interface)
